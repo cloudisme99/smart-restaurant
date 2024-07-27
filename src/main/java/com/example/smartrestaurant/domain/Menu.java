@@ -21,6 +21,7 @@ public class Menu {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "menu_id")
 	private Long id;
 
 	@Column(nullable = false)
