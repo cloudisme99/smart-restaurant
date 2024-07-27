@@ -45,4 +45,14 @@ public class MenuService {
 				return MenuDto.fromEntity(menuRepository.save(existingMenu));
 			});
 	}
+
+	@Transactional
+	public boolean deleteMenu(Long id) {
+		return menuRepository.findById(id)
+			.map(menu -> {
+				menuRepository.delete(menu);
+				return true;
+			})
+			.orElse(false);
+	}
 }

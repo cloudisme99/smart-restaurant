@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,13 @@ public class MenuController {
 		return menuService.updateMenu(id, menuDto)
 			.map(ResponseEntity::ok)
 			.orElse(ResponseEntity.notFound().build());
+	}
+
+	// menu 삭제
+	@DeleteMapping("/{id}")
+	public ResponseEntity<MenuDto> deleteMenu(@PathVariable("id") Long id) {
+		boolean deleted = menuService.deleteMenu(id);
+		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
 
 }
