@@ -38,6 +38,13 @@ public class OrderService {
 		this.storeRepository = storeRepository;
 	}
 
+	// 전체 order 조회 로직
+	public List<OrderDto> getAllOrders() {
+		return orderRepository.findAll().stream()
+			.map(OrderDto::fromEntity)
+			.collect(Collectors.toList());
+	}
+
 	// order 추가 로직
 	@Transactional
 	public OrderDto createOrder(OrderDto orderDto) {
