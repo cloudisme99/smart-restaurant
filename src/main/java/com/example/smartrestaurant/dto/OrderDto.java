@@ -26,7 +26,7 @@ public class OrderDto {
 	private Long storeId;
 	private List<OrderItemDto> orderItems;
 	private OrderStatus status;
-	private LocalDateTime orderTime;
+	private LocalDateTime orderedAt;
 
 	public static OrderDto fromEntity(Orders orders) {
 		return OrderDto.builder()
@@ -35,7 +35,7 @@ public class OrderDto {
 			.storeId(orders.getStore().getId())
 			.orderItems(orders.getOrderItems().stream().map(OrderItemDto::fromEntity).collect(Collectors.toList()))
 			.status(orders.getStatus())
-			.orderTime(orders.getOrderTime())
+			.orderedAt(orders.getOrderedAt())
 			.build();
 	}
 
@@ -46,7 +46,7 @@ public class OrderDto {
 			.store(store)
 			.orderItems(orderItemList)
 			.status(this.status)
-			.orderTime(this.orderTime)
+			.orderedAt(this.orderedAt)
 			.build();
 	}
 

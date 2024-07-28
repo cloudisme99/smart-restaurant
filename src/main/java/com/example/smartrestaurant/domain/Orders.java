@@ -50,6 +50,6 @@ public class Orders {
 	private OrderStatus status;
 
 	@Column
-	private LocalDateTime orderTime;
+	private LocalDateTime orderedAt;
 
 }
