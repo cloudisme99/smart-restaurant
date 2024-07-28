@@ -27,6 +27,7 @@ public class OrderDto {
 	private List<OrderItemDto> orderItems;
 	private OrderStatus status;
 	private LocalDateTime orderedAt;
+	private LocalDateTime orderUpdatedAt;
 
 	public static OrderDto fromEntity(Orders orders) {
 		return OrderDto.builder()
@@ -36,6 +37,7 @@ public class OrderDto {
 			.orderItems(orders.getOrderItems().stream().map(OrderItemDto::fromEntity).collect(Collectors.toList()))
 			.status(orders.getStatus())
 			.orderedAt(orders.getOrderedAt())
+			.orderUpdatedAt(orders.getOrderUpdatedAt())
 			.build();
 	}
 
@@ -47,6 +49,7 @@ public class OrderDto {
 			.orderItems(orderItemList)
 			.status(this.status)
 			.orderedAt(this.orderedAt)
+			.orderUpdatedAt(this.orderUpdatedAt)
 			.build();
 	}
 

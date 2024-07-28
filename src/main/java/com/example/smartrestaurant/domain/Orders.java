@@ -52,4 +52,7 @@ public class Orders {
 	@Column
 	private LocalDateTime orderedAt;
 
+	@Column
+	private LocalDateTime orderUpdatedAt;
+
 }

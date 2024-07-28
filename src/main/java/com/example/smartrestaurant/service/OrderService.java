@@ -64,9 +64,41 @@ public class OrderService {
 		Orders orders = orderDto.toEntity(customer, store, orderItems);
 		Orders finalOrders = orders;
 		orderItems.forEach(item -> item.setOrders(finalOrders));
-		orders.setOrderTime(LocalDateTime.now());
+		orders.setOrderedAt(LocalDateTime.now());
 		orders = orderRepository.save(orders);
 		orderItemRepository.saveAll(orderItems);
+
+		return OrderDto.fromEntity(orders);
+	}
+
+	// order 수정 로직
+	@Transactional
+	public OrderDto updateOrder(Long orderId, OrderDto orderDto) {
+		Orders orders = orderRepository.findById(orderId)
+			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+		Customer customer = customerRepository.findById(orderDto.getCustomerId())
+			.orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다."));
+		Store store = storeRepository.findById(orderDto.getStoreId())
+			.orElseThrow(() -> new RuntimeException("상점을 찾을 수 없습니다."));
+
+		List<OrderItem> newOrderItems = orderDto.getOrderItems().stream()
+			.map(orderItemDto -> {
+				Menu menu = menuRepository.findById(orderItemDto.getMenuId())
+					.orElseThrow(() -> new RuntimeException("메뉴를 찾을 수 없습니다."));
+				return orderItemDto.toEntity(orders, menu);
+			})
+			.collect(Collectors.toList());
+
+		orderItemRepository.deleteAll(orders.getOrderItems());
+		orderItemRepository.saveAll(newOrderItems);
+
+		orders.setCustomer(customer);
+		orders.setStore(store);
+		orders.setOrderItems(newOrderItems);
+		orders.setStatus(orderDto.getStatus());
+		orders.setOrderUpdatedAt(LocalDateTime.now());
+
+		orderRepository.save(orders);
 
 		return OrderDto.fromEntity(orders);
 	}
