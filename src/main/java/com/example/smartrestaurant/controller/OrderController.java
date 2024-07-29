@@ -2,6 +2,8 @@ package com.example.smartrestaurant.controller;
 
 import com.example.smartrestaurant.dto.OrderDto;
 import com.example.smartrestaurant.service.OrderService;
+import jakarta.persistence.Column;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,10 +42,17 @@ public class OrderController {
 	}
 
 	// order 수정
-	@PutMapping("/{orderId}")
-	public ResponseEntity<OrderDto> updateOrder(@PathVariable Long orderId, @RequestBody OrderDto orderDto) {
-		OrderDto updatedOrder = orderService.updateOrder(orderId, orderDto);
+	@PutMapping("/{id}")
+	public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
+		OrderDto updatedOrder = orderService.updateOrder(id, orderDto);
 		return ResponseEntity.ok(updatedOrder);
+	}
+
+	// order 취소
+	@PostMapping("/{id}/cancel")
+	public ResponseEntity<OrderDto> cancelOrder(@PathVariable Long id) {
+		orderService.cancelOrder(id);
+		return ResponseEntity.ok().build();
 	}
 
 }

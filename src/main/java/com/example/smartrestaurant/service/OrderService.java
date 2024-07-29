@@ -2,6 +2,7 @@ package com.example.smartrestaurant.service;
 
 import com.example.smartrestaurant.domain.Customer;
 import com.example.smartrestaurant.domain.Menu;
+import com.example.smartrestaurant.domain.OrderStatus;
 import com.example.smartrestaurant.domain.Orders;
 import com.example.smartrestaurant.domain.OrderItem;
 import com.example.smartrestaurant.domain.Store;
@@ -101,5 +102,14 @@ public class OrderService {
 		orderRepository.save(orders);
 
 		return OrderDto.fromEntity(orders);
+	}
+
+	// order 취소 로직
+	@Transactional
+	public void cancelOrder(Long orderId) {
+		Orders orders = orderRepository.findById(orderId)
+			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+		orders.setStatus(OrderStatus.CANCELED);
+		orderRepository.save(orders);
 	}
 }
