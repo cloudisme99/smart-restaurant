@@ -2,8 +2,6 @@ package com.example.smartrestaurant.controller;
 
 import com.example.smartrestaurant.dto.OrderDto;
 import com.example.smartrestaurant.service.OrderService;
-import jakarta.persistence.Column;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
