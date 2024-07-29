@@ -53,5 +53,11 @@ public class OrderController {
 		return ResponseEntity.ok().build();
 	}
 
+	// order 완료(총 금액 합 계산)
+	@PostMapping("/{id}/complete")
+	public ResponseEntity<Double> completeOrder(@PathVariable Long id) {
+		double totalAmount = orderService.completeOrder(id);
+		return ResponseEntity.ok(totalAmount);
+	}
 }
 

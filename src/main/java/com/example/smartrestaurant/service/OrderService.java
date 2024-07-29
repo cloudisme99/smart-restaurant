@@ -112,4 +112,23 @@ public class OrderService {
 		orders.setStatus(OrderStatus.CANCELED);
 		orderRepository.save(orders);
 	}
+
+	// 총 금액 합 계산 로직
+	public double calculateTotalAmount(Long id) {
+		Orders orders = orderRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+		return orders.getOrderItems().stream()
+			.mapToDouble(orderItem -> orderItem.getMenu().getPrice() * orderItem.getQuantity())
+			.sum();
+	}
+
+	// 주문 완료 시 총액 합 return
+	@Transactional
+	public double completeOrder(Long id) {
+		Orders orders = orderRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+		orders.setStatus(OrderStatus.COMPLETED);
+		orderRepository.save(orders);
+		return calculateTotalAmount(id);
+	}
 }
