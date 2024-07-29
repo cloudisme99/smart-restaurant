@@ -74,8 +74,8 @@ public class OrderService {
 
 	// order 수정 로직
 	@Transactional
-	public OrderDto updateOrder(Long orderId, OrderDto orderDto) {
-		Orders orders = orderRepository.findById(orderId)
+	public OrderDto updateOrder(Long id, OrderDto orderDto) {
+		Orders orders = orderRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
 		Customer customer = customerRepository.findById(orderDto.getCustomerId())
 			.orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다."));
@@ -106,8 +106,8 @@ public class OrderService {
 
 	// order 취소 로직
 	@Transactional
-	public void cancelOrder(Long orderId) {
-		Orders orders = orderRepository.findById(orderId)
+	public void cancelOrder(Long id) {
+		Orders orders = orderRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
 		orders.setStatus(OrderStatus.CANCELED);
 		orderRepository.save(orders);
